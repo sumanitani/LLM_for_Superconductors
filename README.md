@@ -84,10 +84,60 @@ Below are the exact base-model paths:
 | **Qwen3-2507-4B** | `unsloth/Qwen3-4B-Instruct-2507` |
 | **Phi-4** | `unsloth/Phi-4` |
 
-These go into your inference script.
+
 
 ---
 
 # 🚀 3. How to Use These Models (with `inference.py`)
 
-This repository includes a universal script:
+This repository includes a universal `inference.py` script that can be used with **any** of the LoRA models listed above.
+
+## 3.1 Install Dependencies
+All fine-tuned models in this repository were trained and optimized using the
+Unsloth framework. Before running inference, install the Unsloth package and required libraries:
+
+    pip install unsloth
+
+Unsloth enables fast and memory-efficient loading of base models in 4-bit precision.
+
+(Users may also install any additional packages listed at the top of `inference.py`.)
+
+## 3.2 How to Select Which Model to Run
+Inside the `inference.py` file, you will find placeholders where you must select:
+
+- **BASE_MODEL** → the original foundation model used before fine-tuning  
+- **LORA_MODEL** → one of the LoRA adapters from the Hugging Face links above  
+
+To run a specific model, simply replace these two lines with the correct model names taken from the tables in Section 1 and Section 2 of this README.
+
+**Example instruction for users:**
+> “Choose one LoRA model from the list above and replace the BASE_MODEL and LORA_MODEL fields in `inference.py` with the corresponding base model and LoRA model names.”
+
+This allows the same script to work for:
+- Classification  
+- Tc regression (composition-only)  
+- Tc regression (composition + system + space group)  
+- CIF-based Tc prediction  
+- Inverse design  
+
+
+## 3.3 Editing Input Format (Instruction / Input Sections)
+The models were trained using an Alpaca-style instruction format.  
+To use your own materials or queries, modify the fields:
+
+- **instruction** – describes the task  
+- **input** – contains the composition, crystal structure, space group, or CIF-based information  
+
+These formats are described in detail in the **Methods section** of the associated manuscripts.  
+Users simply replace the example text inside these fields with their own material data.
+
+After replacing:
+- BASE_MODEL  
+- LORA_MODEL  
+- instruction text  
+- input text  
+
+the script is fully ready for inference with any model in this repository.
+
+
+If you use these models in academic or research work, please cite the corresponding papers listed in the **Citation** section below.
